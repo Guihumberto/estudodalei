@@ -77,7 +77,7 @@
               <v-alert
                 outlined dense
                 type="error"
-              >Termo ou número da súmula <b style="text-decoration: underline red;">não encontrado</b>. Refaça a busca!</v-alert>
+              >Resultado da pesquisa <b style="text-decoration: underline red;">não encontrado</b>. Refaça a busca!</v-alert>
           </v-card-text>
         </v-card>
         <v-card outlined min-height="80vh" v-else-if="listSumulas.length">
@@ -162,6 +162,13 @@
           {name: 'Direito Tributário', sigla: 'DT'},
           {name: 'Direito Constitucional', sigla: 'DC'},
           {name: 'Direito Administrativo', sigla: 'DA'},
+          {name: 'Direito Previdenciário', sigla: 'PREV'},
+          {name: 'Direito do Consumidor', sigla: 'CONS'},
+          {name: 'Direito Civil', sigla: 'CC'},
+          {name: 'Direito Penal', sigla: 'DP'},
+          {name: 'Processo Civil', sigla: 'PC'},
+          {name: 'Processo Penal', sigla: 'PP'},
+          {name: 'Direito Eleitoral', sigla: 'ELT'},
         ],
         filterDisciplinas:[],
         reverse: false,
@@ -183,20 +190,7 @@
       listSumulas(){
         let sumulas = this.$store.getters.readSumulas
         let tagsFilter = []
-         
-       if(this.filterDisciplinas.length){
-
-          this.filterDisciplinas.forEach(tag => {
-            sumulas.forEach(i => {
-                if(i.tag == tag){
-                  tagsFilter.push(i)
-                }
-            })
-          })
-          sumulas = tagsFilter
-          
-          return sumulas
-        }
+        
         if(this.search){
               let search = this.search.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
               //retirar caracteres especiais
@@ -210,6 +204,17 @@
               }
               //fazer o filtro
               let filtro = sumulas.filter(item => exp.test(item.text.normalize('NFD').replace(/[\u0300-\u036f]/g, "") ) || exp.test( item.nro ) || exp.test( item.text ))
+              
+              if(this.filterDisciplinas.length){
+              this.filterDisciplinas.forEach(tag => {
+                filtro.forEach(i => {
+                    if(i.tag == tag){
+                      tagsFilter.push(i)
+                    }
+                })
+              })
+              filtro = tagsFilter
+            }
 
               return filtro.length
                     ? filtro.sort(this.order)
@@ -227,8 +232,20 @@
             if(this.filtroOrgao == 'Todos') {
                   sumulas = this.$store.getters.readSumulas
             }
-
-          return sumulas.sort(this.order)
+            if(this.filterDisciplinas.length){
+              this.filterDisciplinas.forEach(tag => {
+                sumulas.forEach(i => {
+                    if(i.tag == tag){
+                      tagsFilter.push(i)
+                    }
+                })
+              })
+              sumulas = tagsFilter
+            }
+            
+          return sumulas.length
+          ? sumulas.sort(this.order)
+          : 99
         }
       },
       listIntegraSumula(){
@@ -272,7 +289,7 @@
               this.msgError = "súmula já inserida"
             }
             else if(!this.sumulasInArray(sumula)){
-              this.msgError = "súmula não cadastra na base"
+              this.msgError = "pesquisa incorreta"
             }
             else {
               this.msgError = " Não existe"
