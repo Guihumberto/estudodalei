@@ -118,11 +118,11 @@
                   <template v-for="(item, index) in listSumulas">
                     <v-divider v-if="index != 0" inset></v-divider>
                   <v-list-item :key="index">
-                  <v-list-item-avatar>
+                  <v-list-item-avatar class="px-auto">
                     <v-avatar
                         :color=" item.orgao == 'STF' ? 'indigo' : 'error'"  
                         size="48"
-                        class="pr-2"
+                        class="px-auto"
                       >
                         <span class="white--text text-h6">{{item.orgao}}</span>
                       </v-avatar>
@@ -303,9 +303,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped>
-.align_avatar{
-      padding: 16px;
-    }
-</style>
