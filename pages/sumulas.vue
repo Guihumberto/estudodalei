@@ -184,6 +184,7 @@
           {name: 'Processo Penal', sigla: 'PP'},
           {name: 'Direito Eleitoral', sigla: 'ELT'},
           {name: 'Direito Empresarial', sigla: 'EMP'},
+          {name: 'Criança e Adolescente Empresarial', sigla: 'ECA'},
         ],
         filterDisciplinas:[],
         reverse: false,
