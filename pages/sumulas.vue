@@ -183,6 +183,7 @@
           {name: 'Processo Civil', sigla: 'PC'},
           {name: 'Processo Penal', sigla: 'PP'},
           {name: 'Direito Eleitoral', sigla: 'ELT'},
+          {name: 'Direito Empresarial', sigla: 'EMP'},
         ],
         filterDisciplinas:[],
         reverse: false,
