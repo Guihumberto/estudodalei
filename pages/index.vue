@@ -81,7 +81,7 @@
           </v-card-text>
           <v-card-text>
             <!-- btn ver mais -->
-              <div class="text-center mt-5" v-if="sizeScreen.value">
+              <div class="text-center mt-5" v-if="sizeScreen.value & showMoreLaws < lawList.length">
                 <v-btn
                   :block="sizeScreen.value"
                   outlined

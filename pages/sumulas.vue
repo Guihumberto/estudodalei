@@ -141,7 +141,7 @@
                   </template>
               </v-list>
               <!-- btn ver mais -->
-              <div class="text-center">
+              <div class="text-center" v-if="showMoreSUmulas < listSumulas.length">
                 <v-btn
                   class="ma-2"
                   :block="sizeScreen"
@@ -198,7 +198,7 @@
         sumulasFilterView: true,
         sumulasFilterList: [],
         msgError: '',
-        showMoreSUmulas: 10
+        showMoreSUmulas: 5,
       }
     },
     computed:{
@@ -282,19 +282,20 @@
         )
         return list
       },
-      sizeScreen(){
-        let largura = window.innerWidth
+      largura(){
+        return window.innerWidth
         || document.documentElement.clientWidth
-        || document.body.clientWidth;
-
-        let altura = window.innerHeight
+        || document.body.clientWidth
+      },
+      altura(){
+        return window.innerHeight
         || document.documentElement.clientHeight
         || document.body.clientHeight;
-
-        if (largura < 640 || altura < 480) {
+      },
+      sizeScreen(){
+        console.log(this.altura, this.largura);
+        if (this.largura < 640 || this.altura < 480) {
             return  true
-        } else if (largura < 1024 || altura < 768) {
-            return  false
         } else {
             return  false
         }
