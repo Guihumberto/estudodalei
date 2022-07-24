@@ -56,7 +56,11 @@
           </v-card-text>
           <v-card-text>
             <v-row >
-              <v-col class="my-n2" cols="12" :sm="viewDashboard.sm" :md="viewDashboard.md" v-for="(item, index) in lawList" :key="index">
+              <v-col 
+                class="my-n2" 
+                cols="12" 
+                :sm="viewDashboard.sm" :md="viewDashboard.md" 
+                v-for="(item, index) in lawList.slice(0, sizeScreen.qtd)" :key="index">
                 <v-card  
                   height="120"
                   hover outlined min-height="100" 
@@ -74,6 +78,19 @@
                 </v-card>
               </v-col>
             </v-row>  
+          </v-card-text>
+          <v-card-text>
+            <!-- btn ver mais -->
+              <div class="text-center mt-5" v-if="sizeScreen.value">
+                <v-btn
+                  :block="sizeScreen.value"
+                  outlined
+                  @click="showMoreLaws += 10"
+                  color="indigo">
+                  <v-icon class=" ml-n2 mr-1">mdi-plus</v-icon>
+                  Ver mais
+                </v-btn>
+              </div>
           </v-card-text>
         </v-card>
          <!-- tela de loading -->
@@ -96,6 +113,7 @@
       return{
         dashboard: true,
         search: '',
+        showMoreLaws: 5,
         tags: [
           {name: 'D. Constitucional', sigla: 'DC'},
           {name: 'D. Tributário', sigla: 'DT'},
@@ -145,6 +163,23 @@
         ? {icon: "mdi-view-dashboard", sm: 4, md: 3, trun: 20, trun2: 50}
         : {icon: "mdi-format-list-bulleted-square", sm: 12, md: 12, trun: 100, trun2: 200}
       },
+      sizeScreen(){
+        let largura = window.innerWidth
+        || document.documentElement.clientWidth
+        || document.body.clientWidth;
+
+        let altura = window.innerHeight
+        || document.documentElement.clientHeight
+        || document.body.clientHeight;
+
+        if (largura < 640 || altura < 480) {
+            return  {value: true, qtd: this.showMoreLaws}
+        } else if (largura < 1024 || altura < 768) {
+            return  {value: false, qtd: 50}
+        } else {
+            return  {valeu: false, qtd: 50}
+        }
+      }
     },
     methods:{
       filterTag(item){

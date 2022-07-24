@@ -72,6 +72,7 @@
               </v-card-text>
             </v-expand-transition>
         </v-card>
+        <!-- nao encontrado -->
         <v-card outlined min-height="10vw" v-if="listSumulas == 99">
           <v-card-text>
               <v-alert
@@ -80,8 +81,8 @@
               >Resultado da pesquisa <b style="text-decoration: underline red;">não encontrado</b>. Refaça a busca!</v-alert>
           </v-card-text>
         </v-card>
-        <v-card outlined min-height="80vh" v-else-if="listSumulas.length">
-            
+        <!-- sumulas filtradas e list -->
+        <v-card outlined min-height="80vh" v-else-if="listSumulas.length">          
             <!-- sumulas filtradas -->
             <v-card-text v-if="sumulasFilterActive">
               Filtros <v-btn @click="sumulasFilterView = !sumulasFilterView" x-small icon>
@@ -106,6 +107,7 @@
                 </div>
               </v-expand-transition>
             </v-card-text>
+            <!-- sumulas listadas -->
             <v-card-text>
               <v-list>
                   <v-subheader>
@@ -115,7 +117,7 @@
                       <v-icon>{{reverse ? 'mdi-order-alphabetical-ascending' : 'mdi-order-alphabetical-descending'}}</v-icon>
                     </v-btn>
                   </v-subheader>
-                  <template v-for="(item, index) in listSumulas">
+                  <template v-for="(item, index) in listSumulas.slice(0, showMoreSUmulas)">
                     <v-divider v-if="index != 0" inset></v-divider>
                   <v-list-item :key="index">
                   <v-list-item-avatar class="px-auto">
@@ -138,6 +140,18 @@
                   </v-list-item>
                   </template>
               </v-list>
+              <!-- btn ver mais -->
+              <div class="text-center">
+                <v-btn
+                  class="ma-2"
+                  :block="sizeScreen"
+                  outlined
+                  @click="showMoreSUmulas += 10"
+                  color="indigo">
+                  <v-icon class=" ml-n2 mr-1">mdi-plus</v-icon>
+                  Ver mais
+                </v-btn>
+              </div>
             </v-card-text>
         </v-card>
         <!-- barra de loading -->
@@ -183,7 +197,8 @@
         search: '',
         sumulasFilterView: true,
         sumulasFilterList: [],
-        msgError: ''
+        msgError: '',
+        showMoreSUmulas: 10
       }
     },
     computed:{
@@ -243,7 +258,7 @@
               sumulas = tagsFilter
             }
             
-          return sumulas.length
+          return sumulas
           ? sumulas.sort(this.order)
           : 99
         }
@@ -266,6 +281,23 @@
           })
         )
         return list
+      },
+      sizeScreen(){
+        let largura = window.innerWidth
+        || document.documentElement.clientWidth
+        || document.body.clientWidth;
+
+        let altura = window.innerHeight
+        || document.documentElement.clientHeight
+        || document.body.clientHeight;
+
+        if (largura < 640 || altura < 480) {
+            return  true
+        } else if (largura < 1024 || altura < 768) {
+            return  false
+        } else {
+            return  false
+        }
       }
     },
     methods:{
