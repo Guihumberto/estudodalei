@@ -250,8 +250,12 @@
             if(this.filterDisciplinas.length){
               this.filterDisciplinas.forEach(tag => {
                 sumulas.forEach(i => {
-                    if(i.tag == tag){
-                      tagsFilter.push(i)
+                    if(Array.isArray(i.tag)) {
+                      i.tag.forEach(sigla => {
+                        if(sigla == tag) {
+                          tagsFilter.push(i)
+                        }
+                      })
                     }
                 })
               })
