@@ -59,6 +59,7 @@
                   >
                       <template v-slot:selection="data">
                         <v-chip
+                          class="mb-1"
                           v-bind="data.attrs"
                           :input-value="data.selected"
                           close
@@ -132,7 +133,7 @@
                   <v-list-item-content>
                       <v-list-item-title>
                       Súmula <span v-if="item.vinculante">Vinculante</span> {{item.nro}}
-                      <v-chip x-small v-for="(tag, index) in item.tag" :key="index">{{tag}}</v-chip>
+                      <v-chip class="mr-1" x-small v-for="(tag, index) in item.tag" :key="index">{{tag}}</v-chip>
                       </v-list-item-title>
                       <div class="mt-2"> <p class="caption">{{item.text}}</p></div>
                   </v-list-item-content>
@@ -184,7 +185,7 @@
           {name: 'Processo Penal', sigla: 'PP'},
           {name: 'Direito Eleitoral', sigla: 'ELT'},
           {name: 'Direito Empresarial', sigla: 'EMP'},
-          {name: 'Criança e Adolescente Empresarial', sigla: 'ECA'},
+          {name: 'Criança e Adolescente', sigla: 'ECA'},
         ],
         filterDisciplinas:[],
         reverse: false,
