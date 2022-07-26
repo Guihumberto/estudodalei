@@ -60,6 +60,7 @@
                       <template v-slot:selection="data">
                         <v-chip
                           class="mb-1"
+                          small
                           v-bind="data.attrs"
                           :input-value="data.selected"
                           close
