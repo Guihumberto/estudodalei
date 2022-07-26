@@ -121,14 +121,15 @@
                   <template v-for="(item, index) in listSumulas.slice(0, showMoreSUmulas)">
                     <v-divider v-if="index != 0" inset></v-divider>
                   <v-list-item :key="index">
-                  <v-list-item-icon>
+                  <v-list-item-avatar class="px-auto">
                     <v-avatar
-                        :color=" item.orgao == 'STF' ? 'indigo' : 'error'" 
+                        :color=" item.orgao == 'STF' ? 'indigo' : 'error'"  
+                        size="48"
                         class="px-auto"
                       >
                         <span class="white--text text-h6">{{item.orgao}}</span>
                       </v-avatar>
-                  </v-list-item-icon>
+                  </v-list-item-avatar>
                   <v-list-item-content>
                       <v-list-item-title>
                       Súmula <span v-if="item.vinculante">Vinculante</span> {{item.nro}}
@@ -136,7 +137,13 @@
                       </v-list-item-title>
                       <div class="mt-2"> <p class="caption">{{item.text}}</p></div>
                   </v-list-item-content>
-                  <!-- {{item.id}} -->
+                  {{item.id}}
+                  <adm-forms-editSumulas :sumula="item" />
+                  <v-btn 
+                    :loading="loadDeleteSumula"
+                    @click="deleteSumula(item)" icon>
+                    <v-icon color="red lighten-2">mdi-delete-circle</v-icon>
+                  </v-btn>
                   </v-list-item>
                   </template>
               </v-list>
@@ -167,6 +174,7 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex';
   export default {
     data () {
       return {
@@ -201,7 +209,8 @@
         sumulasFilterView: true,
         sumulasFilterList: [],
         msgError: '',
-        showMoreSUmulas: 5,
+        showMoreSUmulas: 50,
+        loadDeleteSumula: false
       }
     },
     computed:{
@@ -239,7 +248,8 @@
                     : 99
         } else {
             if(this.filtroVinculante){
-              sumulas = sumulas.filter (i => i.vinculante)
+              sumulas = sumulas.filter (i => !i.vinculante)
+              // ALTGERAR AQUI TIRAR O ! PARA PEGAR AS VINCULANTES
             }
             if(this.filtroOrgao != 'Todos') {
               if(this.filtroOrgao == 'STJ'){
@@ -315,6 +325,7 @@
       }
     },
     methods:{
+        ...mapActions(['deleteSumulaFB']),
         sumulasFilterExist(nro){
           return this.listIntegraSumula.find(i => i.nro == nro)
           ? true
@@ -362,7 +373,17 @@
         remove (item) {
           const index = this.filterDisciplinas.indexOf(item.sigla)
           if (index >= 0) this.filterDisciplinas.splice(index, 1)
-      },
+        },
+        deleteSumula(item){
+          if (window.confirm("Você realmente quer APAGAR?")) {
+              this.loadDeleteSumula = true
+              this.deleteSumulaFB(item.id)
+              setTimeout(()=> {
+                this.loadDeleteSumula = false
+              }, 2000)
+              // window.open("sair.html", "Obrigado pela visita!");
+          }
+        }
     }
   }
 </script>

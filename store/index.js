@@ -61,6 +61,13 @@ export const mutations = {
     setSumulas(state, payload){
         state.sumulas = payload
     },
+    deleteSumula(state, payload) {
+        state.sumulas = state.sumulas.filter( item => item.id != payload)
+    },
+    editSumula(state, payload){
+        const x = state.sumulas.map(item => item.id == payload.id ? payload : item)
+        state.sumulas = x
+    },
 }
 
 export const actions = {
@@ -216,8 +223,6 @@ export const actions = {
         }
     },
     async saveSumulaDispositivo({ commit }, dipositivo){
-   
-        console.log(`https://leges-estudo-default-rtdb.firebaseio.com/textLaws/${dipositivo[0]}/${dipositivo[1]}.json`);
         try {
             const res = await fetch(`https://leges-estudo-default-rtdb.firebaseio.com/textLaws/${dipositivo[0]}/${dipositivo[1]}.json`, {
                 method: 'PUT',
@@ -247,5 +252,29 @@ export const actions = {
         } catch(error){
             console.log(error)
         } 
+    },
+    async deleteSumulaFB({ commit }, id){
+        console.log("apagado");
+        try {
+            await fetch(`https://leges-estudo-default-rtdb.firebaseio.com/sumulas/${id}.json`, {
+                method: 'DELETE',
+            })
+            commit('deleteSumula', id)
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    async editSumulaFB({commit}, sumula){
+        try {
+            const res = await fetch(`https://leges-estudo-default-rtdb.firebaseio.com/sumulas/${sumula.id}.json`, {
+                method: 'PATCH',
+                body: JSON.stringify(sumula)
+            })
+
+            const dataDB = await res.json()
+            commit('editSumula', sumula)
+        } catch (error) {
+            console.log(error)
+        }
     },
 }
