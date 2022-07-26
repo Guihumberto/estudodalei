@@ -94,7 +94,9 @@
         </v-col>
     </v-row>
     <!-- Pagination top -->
-    <v-btn small color="error" v-show="artIndice" text @click="clearSearchIndice">fechar buscar por índice</v-btn>
+    <div class="text-right">
+        <v-btn class="mr-0 pr-0" small color="error" v-show="artIndice" text @click="clearSearchIndice">fechar buscar por índice</v-btn>
+    </div>
     <div class="text-center mb-2" v-if="!search && !artsFilterActive">
         <v-pagination
         v-model="pagination.page"
@@ -159,8 +161,10 @@
                     </div>
                 </div>
             </div>
-        </v-card-text>
-       
+            <div class="text-center" v-if="artIndice">
+                <v-btn @click="qtdArtIndice += 10" outlined>mostrar mais <v-icon class="ml-1 mr-n2">mdi-plus</v-icon></v-btn>
+            </div>
+        </v-card-text>     
     </v-card>
     <!-- load -->
     <v-card v-else>
@@ -213,7 +217,8 @@ import boxAdd from '../../components/leges/box/boxAdd.vue';
                     fontStyle: '',
                 },
                 boxAdd: false,
-                artIndice: ''
+                artIndice: '',
+                qtdArtIndice: 10
             }
         },
         computed:{
@@ -223,7 +228,7 @@ import boxAdd from '../../components/leges/box/boxAdd.vue';
                 if(this.artIndice){
                     
                     let indice = textTemp.findIndex(i => i.textLaw == this.artIndice)
-                    return { text: textTemp.slice(indice, indice + 100)}
+                    return { text: textTemp.slice(indice, indice + this.qtdArtIndice)}
                 }
                 else if(this.artsFilterActive){
                     let filtro = this.$store.getters.readTextLaw

@@ -186,6 +186,7 @@
           {name: 'Direito Eleitoral', sigla: 'ELT'},
           {name: 'Direito Empresarial', sigla: 'EMP'},
           {name: 'Criança e Adolescente', sigla: 'ECA'},
+          {name: 'Execução Penal', sigla: 'EP'},
         ],
         filterDisciplinas:[],
         reverse: false,
