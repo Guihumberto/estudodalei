@@ -127,12 +127,34 @@
               </v-expand-transition>
             </v-card-text>
 
+            <!-- {{sumulasFilterActive}} -->
+
             <!-- seleção de assunto -->
-            <v-card-text>
-              oioio
+            <v-card-text v-if="filterDisciplinas.length">
+                <h2 class="text-h6 mb-2">
+                  Escolha o Assunto
+                </h2>
+                <v-chip-group
+                  v-model="subjectDisciplina"
+                  column
+                  multiple
+                >
+                  <v-chip
+                    v-for="item, index in subjectDisciplinaList"
+                    :key="index"
+                    :value="item"
+                    filter
+                    outlined
+                  >
+                    {{item}}
+                  </v-chip>
+                </v-chip-group>
             </v-card-text>
 
-
+            <!-- filtros por assunto -->
+            <!-- <v-card-text>
+              {{listSubject}}
+            </v-card-text> -->
 
             <!-- sumulas listadas -->
             <v-card-text>
@@ -144,7 +166,7 @@
                       <v-icon>{{reverse ? 'mdi-order-alphabetical-ascending' : 'mdi-order-alphabetical-descending'}}</v-icon>
                     </v-btn>
                   </v-subheader>
-                  <template v-for="(item, index) in listSumulas.slice(0, showMoreSUmulas)">
+                  <template v-for="(item, index) in listSubject || listSumulas.slice(0, showMoreSUmulas)">
                     <v-divider v-if="index != 0" inset></v-divider>
                   <v-list-item :key="index">
                   <v-list-item-icon>
@@ -167,7 +189,7 @@
                   </template>
               </v-list>
               <!-- btn ver mais -->
-              <div class="text-center" v-if="showMoreSUmulas < listSumulas.length">
+              <div class="text-center" v-if="showMoreSUmulas < listSumulas.length" v-show="!listSubject">
                 <v-btn
                   class="ma-2"
                   :block="sizeScreen"
@@ -214,6 +236,7 @@
           {name: 'Execução Penal', sigla: 'EP'},
         ],
         filterDisciplinas:[],
+        subjectDisciplina: [],
         reverse: false,
         attrs: {
           class: 'mb-6',
@@ -321,6 +344,37 @@
         } else {
             return  false
         }
+      },
+      subjectDisciplinaList(){
+        let subjects = []
+        if(this.filterDisciplinas.length){
+          this.listSumulas.forEach(i =>{
+            if(i.tag){
+              i.tag.forEach(tag => {
+                subjects.push(tag)
+              })
+            }
+          })
+        }
+
+        subjects = [...new Set(subjects)]
+
+        return subjects
+      },
+      listSubject(){
+        let subjectItem = []
+        if(this.subjectDisciplina.length){
+              this.subjectDisciplina.forEach( subject => {
+                this.listSumulas.forEach(sml => {
+                  sml.tag.forEach(tag => {
+                    if(tag == subject){
+                      subjectItem.push(sml)
+                    }
+                  })
+                })
+              })
+              return subjectItem
+            }
       }
     },
     methods:{
