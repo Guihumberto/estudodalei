@@ -65,7 +65,7 @@
                           :input-value="data.selected"
                           close
                           @click="data.select"
-                          @click:close="remove(data.item)"
+                          @click:close="remove(data.item), subjectDisciplina = []"
                         >
                           {{ data.item.name }}
                         </v-chip>
