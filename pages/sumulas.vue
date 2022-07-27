@@ -152,7 +152,9 @@
                         :key="index"
                         :value="item"
                         filter
-                        outlined
+                        :outlined="!disciplinas.find(i => i.sigla == item)"
+                        :color="!disciplinas.find(i => i.sigla == item) ? 'secondary':'success'"
+                        :title="!disciplinas.find(i => i.sigla == item) ? 'Assunto':'Disciplina'"
                       >
                         {{item}}
                       </v-chip>
