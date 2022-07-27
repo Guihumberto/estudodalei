@@ -369,7 +369,7 @@
       },
       listSubject(){
         let subjectItem = []
-        if(this.subjectDisciplina.length){
+        if(this.subjectDisciplina.length && this.filterDisciplinas.length){
               this.subjectDisciplina.forEach( subject => {
                 this.listSumulas.forEach(sml => {
                   sml.tag.forEach(tag => {
@@ -379,7 +379,10 @@
                   })
                 })
               })
-              return subjectItem
+              return subjectItem.length
+              ? subjectItem
+              : this.listSumulas
+
             }
       }
     },
