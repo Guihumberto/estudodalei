@@ -131,30 +131,35 @@
 
             <!-- seleção de assunto -->
             <v-card-text v-if="filterDisciplinas.length">
-                <h2 class="text-h6 mb-2">
-                  Escolha o Assunto
-                </h2>
-                <v-chip-group
-                  v-model="subjectDisciplina"
-                  column
-                  multiple
-                >
-                  <v-chip
-                    v-for="item, index in subjectDisciplinaList"
-                    :key="index"
-                    :value="item"
-                    filter
-                    outlined
-                  >
-                    {{item}}
-                  </v-chip>
-                </v-chip-group>
+                <v-subheader>
+                  <v-spacer></v-spacer>
+                  <v-btn x-small text @click="subjectVue = !subjectVue">
+                    {{subjectVue ? 'Ocultar os assuntos' : 'Mostrar os assuntos'}}
+                  </v-btn>
+                </v-subheader>
+                <v-expand-transition>
+                  <div v-if="subjectVue">
+                    <h2 class="text-h6 mb-2">
+                      Escolha o Assunto
+                    </h2>
+                    <v-chip-group
+                      v-model="subjectDisciplina"
+                      column
+                      multiple
+                    >
+                      <v-chip
+                        v-for="item, index in subjectDisciplinaList"
+                        :key="index"
+                        :value="item"
+                        filter
+                        outlined
+                      >
+                        {{item}}
+                      </v-chip>
+                    </v-chip-group>
+                  </div>
+                </v-expand-transition>
             </v-card-text>
-
-            <!-- filtros por assunto -->
-            <!-- <v-card-text>
-              {{listSubject}}
-            </v-card-text> -->
 
             <!-- sumulas listadas -->
             <v-card-text>
@@ -237,6 +242,7 @@
         ],
         filterDisciplinas:[],
         subjectDisciplina: [],
+        subjectVue: true,
         reverse: false,
         attrs: {
           class: 'mb-6',
