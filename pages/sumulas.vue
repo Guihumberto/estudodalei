@@ -27,7 +27,7 @@
                 <v-expand-x-transition>
                   <v-switch
                     v-if="filtroOrgao == 'STF'"
-                    label="Vinculante"
+                    label="apenas vinculante"
                     dense
                     v-model="filtroVinculante"
                   ></v-switch>
@@ -74,6 +74,7 @@
               </v-card-text>
             </v-expand-transition>
         </v-card>
+        
         <!-- nao encontrado -->
         <v-card outlined min-height="10vw" v-if="listSumulas == 99">
           <v-card-text>
@@ -83,32 +84,56 @@
               >Resultado da pesquisa <b style="text-decoration: underline red;">não encontrado</b>. Refaça a busca!</v-alert>
           </v-card-text>
         </v-card>
+
         <!-- sumulas filtradas e list -->
-        <v-card outlined min-height="80vh" v-else-if="listSumulas.length">          
+        <v-card outlined min-height="80vh" v-else-if="listSumulas.length">         
+        
             <!-- sumulas filtradas -->
             <v-card-text v-if="sumulasFilterActive">
-              Filtros <v-btn @click="sumulasFilterView = !sumulasFilterView" x-small icon>
-              <v-icon>{{sumulasFilterView ? 'mdi-eye' : 'mdi-eye-off'}}</v-icon>
-              </v-btn>
+              <v-subheader>
+                <v-spacer></v-spacer>
+                <v-btn class="mr-6 px-2" text x-small @click="sumulasFilterList = []">Limpar</v-btn>
+                <v-btn class="mr-1" @click="sumulasFilterView = !sumulasFilterView" x-small icon> 
+                {{sumulasFilterView ? 'Ocultar' : 'Mostrar'}}
+                  <v-icon class="ml-1">{{sumulasFilterView ? 'mdi-eye' : 'mdi-eye-off'}}</v-icon>
+                </v-btn>
+              </v-subheader>
+
               <v-expand-transition>
                 <div v-if="sumulasFilterView">
                   <v-alert 
-                    v-for="item, index in listFilterSumulas" :key="index"
+                    v-for="item, index in sumulasFilterList" :key="index"
                     outlined dense text 
                     >
                     <v-row align="center">
                       <v-col class="grow">
                         <div class="font-weight-bold">{{item.orgao}} - Súmula <span v-if="item.vinculante">Vinculante</span> {{item.nro}}</div>
+                        <v-chip-group>
+                          <v-chip
+                            v-for="item, index in item.tag"
+                            :key="index"
+                            color="success"
+                            x-small
+                          >{{item}}</v-chip>
+                        </v-chip-group>
                         <p>{{item.text}}</p>
                       </v-col>
                       <v-col class="shrink">
-                        <v-btn icon @click="deleteFilterList(item.nro, index)"><v-icon>mdi-close-circle</v-icon></v-btn>
+                        <v-btn icon @click="deleteFilterList(item)"><v-icon>mdi-close-circle</v-icon></v-btn>
                       </v-col>
                     </v-row>
                   </v-alert>
                 </div>
               </v-expand-transition>
             </v-card-text>
+
+            <!-- seleção de assunto -->
+            <v-card-text>
+              oioio
+            </v-card-text>
+
+
+
             <!-- sumulas listadas -->
             <v-card-text>
               <v-list>
@@ -279,23 +304,6 @@
         ? true
         : false
       },
-      listFilterSumulas(){
-        let list = []
-        let sumulas = this.listIntegraSumula
-
-        if(this.filtroOrgao != 'Todos'){
-          sumulas = sumulas.filter (i => i.orgao == this.filtroOrgao)
-        }
-
-        this.sumulasFilterList.forEach( nro =>
-          sumulas.forEach(item => {
-            if(item.nro == nro){
-              list.push(item)
-            }
-          })
-        )
-        return list
-      },
       largura(){
         return window.innerWidth
         || document.documentElement.clientWidth
@@ -317,19 +325,29 @@
     },
     methods:{
         sumulasFilterExist(nro){
-          return this.listIntegraSumula.find(i => i.nro == nro)
-          ? true
+          let sumula = ""
+          if (this.filtroVinculante && this.filtroOrgao == 'STF'){
+            sumula = this.listIntegraSumula.find(i => i.nro == nro && i.orgao == 'STF' && this.filtroVinculante)
+          } 
+          else if(this.filtroOrgao == 'Todos'){
+             sumula = this.listIntegraSumula.find(i => i.nro == nro)
+          }else{
+             sumula = this.listIntegraSumula.find(i => i.nro == nro && i.orgao == this.filtroOrgao && !this.filtroVinculante)
+          }
+
+          return sumula
+          ? sumula
           : false
         },
-        sumulasInArray(nro){
-          return this.sumulasFilterList.find(i => i == nro)
+        sumulasInArray(sumula){
+          return this.sumulasFilterList.find(i => i.id == sumula.id)
           ? true
           : false
         },
         filterJustSumula(sumula){
-          if(this.sumulasFilterExist(sumula) && !this.sumulasInArray(sumula)){
-            this.sumulasFilterList.push(sumula)
-            console.log(this.sumulasFilterList)
+          let sumulaItem = this.sumulasFilterExist(sumula)
+          if(sumulaItem && !this.sumulasInArray(sumulaItem)){
+            this.sumulasFilterList.push(sumulaItem)
             this.search = ''
           } else {
             if(this.sumulasFilterExist(sumula)){
@@ -344,9 +362,9 @@
           }  
           this.clearMsg()       
         },
-        deleteFilterList(nro, index){
-          if(this.sumulasInArray(nro)){
-            this.sumulasFilterList.splice(index, 1)
+        deleteFilterList(sumula){
+          if(this.sumulasInArray(sumula)){
+            this.sumulasFilterList = this.sumulasFilterList.filter(i => i.id != sumula.id)
           }
         },
         clearMsg(){
