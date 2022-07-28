@@ -154,9 +154,9 @@
                         filter
                         :outlined="!disciplinas.find(i => i.sigla == item)"
                         :color="!disciplinas.find(i => i.sigla == item) ? 'secondary':'success'"
-                        :title="!disciplinas.find(i => i.sigla == item) ? 'Assunto':'Disciplina'"
+                        :title="nomeSigla(item)"
                       >
-                        {{item}}
+                        {{nomeSigla(item) ? nomeSigla(item) : item}}
                       </v-chip>
                     </v-chip-group>
                   </div>
@@ -168,7 +168,7 @@
               <v-list>
                   <v-subheader>
                     <v-spacer></v-spacer>
-                    Total: {{listSumulas.length}}
+                    Total: {{listSubject ? listSubject.length : listSumulas.length}}
                     <v-btn icon @click="reverse = !reverse">
                       <v-icon>{{reverse ? 'mdi-order-alphabetical-ascending' : 'mdi-order-alphabetical-descending'}}</v-icon>
                     </v-btn>
@@ -383,7 +383,7 @@
               })
               return subjectItem.length
               ? subjectItem
-              : this.listSumulas
+              : this.listSumulas.sort(this.order)
 
             }
       }
@@ -446,7 +446,13 @@
         remove (item) {
           const index = this.filterDisciplinas.indexOf(item.sigla)
           if (index >= 0) this.filterDisciplinas.splice(index, 1)
-      },
+        },
+        nomeSigla(sigla){
+          let nome = this.disciplinas.find(i => i.sigla == sigla)
+          if(nome){
+            return nome.name;
+          }
+        }
     }
   }
 </script>
