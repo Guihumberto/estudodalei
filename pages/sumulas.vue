@@ -37,7 +37,6 @@
                   v-model="cancelInclui"
                   color="red"
                   label="Incluir as canceladas"
-                  v-show="false"
                 ></v-checkbox>
               </div>
               <div v-if="search.replace(/[^0-9]/g,'')">
@@ -277,8 +276,13 @@
     },
     computed:{
       listSumulas(){
-        let sumulas = this.$store.getters.readSumulas
         let tagsFilter = []
+        let sumulas = this.$store.getters.readSumulas.filter(i=> i.cancel != true)
+
+        if(this.cancelInclui){
+          sumulas = this.$store.getters.readSumulas
+        }
+   
         
         if(this.search){
               let search = this.search.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
@@ -314,12 +318,21 @@
             }
             if(this.filtroOrgao != 'Todos') {
               if(this.filtroOrgao == 'STJ'){
-                sumulas = this.$store.getters.readSumulas
+                if(this.cancelInclui){
+                  sumulas = this.$store.getters.readSumulas
+                }else {
+                  sumulas = this.$store.getters.readSumulas.filter(i=> i.cancel != true)
+                }
+
               }
                   sumulas = sumulas.filter (i => i.orgao == this.filtroOrgao)
             }
             if(this.filtroOrgao == 'Todos') {
-                  sumulas = this.$store.getters.readSumulas
+                  if(this.cancelInclui){
+                    sumulas = this.$store.getters.readSumulas
+                  }else {
+                    sumulas = this.$store.getters.readSumulas.filter(i=> i.cancel != true)
+                  }
             }
             if(this.filterDisciplinas.length){
               this.filterDisciplinas.forEach(tag => {
