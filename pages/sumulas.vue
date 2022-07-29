@@ -32,7 +32,13 @@
                     v-model="filtroVinculante"
                   ></v-switch>
                 </v-expand-x-transition>
-
+                <v-checkbox
+                  class="ml-8"
+                  v-model="cancelInclui"
+                  color="red"
+                  label="Incluir as canceladas"
+                  v-show="false"
+                ></v-checkbox>
               </div>
               <div v-if="search.replace(/[^0-9]/g,'')">
                 <v-chip-group>
@@ -191,6 +197,9 @@
                       </v-list-item-title>
                       <div class="mt-2"> <p class="caption">{{item.text}}</p></div>
                   </v-list-item-content>
+                  <v-list-item-action v-if="item.cancel">
+                    <v-icon color="red" title="Súmula cancelada/superada">mdi-cancel</v-icon>
+                  </v-list-item-action>
                   <!-- {{item.id}} -->
                   </v-list-item>
                   </template>
@@ -226,6 +235,7 @@
     data () {
       return {
         dialog: false,
+        cancelInclui: false,
         disciplinaVue: false,
         disciplinas:[
           {name: 'Direito Tributário', sigla: 'DT'},

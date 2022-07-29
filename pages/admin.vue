@@ -208,7 +208,7 @@
                     listSumulaItem.tag = []
 
                     text.at(-1).split(',').forEach(i => {
-                        listSumulaItem.tag.push(i)
+                        listSumulaItem.tag.push(i.toUpperCase())
                     })
 
 

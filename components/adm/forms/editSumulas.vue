@@ -42,7 +42,7 @@
                 ></v-textarea>
                 <div class="d-flex">
                     <v-text-field
-                        label="Número"
+                        label="Tags"
                         v-model="insertNewTag"
                         outlined dense
                     ></v-text-field>
@@ -67,6 +67,11 @@
                         </v-chip>
                     </v-chip-group>
                 </div>
+                <v-checkbox
+                  v-model="sumula.cancel"
+                  label="Súmula Cancelada"
+                  color="red"
+                ></v-checkbox>
             </v-form>
         </v-card-text>
         <v-divider></v-divider>
@@ -91,7 +96,7 @@
         dialog: false,
         radioGroup: 1,
         orgao:['STF', 'STJ'],
-        insertNewTag: ''
+        insertNewTag: '',
       }
     },
     props:{
@@ -100,12 +105,13 @@
     methods:{
         ...mapActions(['editSumulaFB']),
         insertTag(item){
-            this.sumula.tag.push(item)
+            this.sumula.tag.push(item.toUpperCase())
             this.insertNewTag = ''
         },
-        saveEditSumula(){
+        saveEditSumula(){ 
             this.editSumulaFB(this.sumula)
             this.dialog = false
+    
         }
     }
   }
