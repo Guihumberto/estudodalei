@@ -32,13 +32,13 @@
                     v-model="filtroVinculante"
                   ></v-switch>
                 </v-expand-x-transition>
-                <v-checkbox
-                  class="ml-8"
-                  v-model="cancelInclui"
-                  color="red"
-                  label="Incluir as canceladas"
-                ></v-checkbox>
               </div>
+              <v-checkbox
+                class="mt-n2"
+                v-model="cancelInclui"
+                color="red"
+                label="Incluir as canceladas"
+              ></v-checkbox>
               <div v-if="search.replace(/[^0-9]/g,'')">
                 <v-chip-group>
                   <v-chip @click="filterJustSumula(search.replace(/[^0-9]/g,''))">
