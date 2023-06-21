@@ -77,6 +77,7 @@
   border: 2px solid #fff;
   padding: 0 1rem;
   transition: .5s;
+  user-select: none;
 }
 .aboutme .mainText h1:hover {
   transform: scaleX(1.1);
@@ -90,6 +91,7 @@
   margin: 0 1rem;
   padding: 5px;
   transition: .5s ease;
+  user-select: none;
 }
 
 .mainText a::after {
@@ -125,6 +127,7 @@
   margin-right: 1rem;
   padding: 5px;
   transition: .5s;
+  user-select: none;
 }
 
 .information a:hover {

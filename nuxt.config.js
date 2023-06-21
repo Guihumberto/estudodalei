@@ -2,7 +2,7 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   ssr: "false",
-  // target: 'static',
+  target: 'static',
 
   generate: {
     fallback: true
@@ -18,10 +18,10 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { 
-        hid: 'description', 
-        name: 'description', 
-        content: 'Estudo da legislação' 
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'Estudo da legislação'
       },
       { name: 'format-detection', content: 'telephone=no' }
     ],

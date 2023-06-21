@@ -37,6 +37,7 @@ footer {
 a {
   color: grey;
   transition: .5s;
+  user-select: none;
 }
 a:hover {
   color: #fff;
@@ -50,12 +51,14 @@ p {
   animation-delay: 1.5s;
   opacity: 0;
   transition: .5s;
+  user-select: none;
 }
 a {
   animation: aparecer 1s ease forwards;
   animation-delay: 1.8s;
   opacity: 0;
   transition: .5s;
+  user-select: none;
 }
 @keyframes aparecer {
   100%{

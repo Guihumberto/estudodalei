@@ -42,6 +42,7 @@
 }
 .headerDiv h1 a {
   transition: .5s;
+  user-select: none;
 }
 .headerDiv h1 a:hover {
   color: rgb(143, 160, 247);
