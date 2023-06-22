@@ -11,7 +11,7 @@
           <a @click="$emit('login')">Cancelar</a>
         </div>
       </div>
-      <div class="information">
+      <div class="information ml-4">
           <a v-for="item, i in sections" :key="i" :href="item.to">
             {{ item.name }}
           </a>

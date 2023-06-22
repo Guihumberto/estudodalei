@@ -10,7 +10,7 @@
             >
               João Humberto Silva Ribeiro Júnior
             </p>
-            <a href="https://www.instagram.com/estudodalei.com.br/" target="_blank">
+            <a href="https://www.instagram.com/estudodalei.com.br/" target="_blank" class="insta">
               <v-icon
                 size="small"
                 color="grey">mdi-instagram
@@ -34,7 +34,7 @@ footer {
   min-height: 6vh;
   transition: .5s;
 }
-a {
+.insta {
   color: grey;
   transition: .5s;
   user-select: none;
