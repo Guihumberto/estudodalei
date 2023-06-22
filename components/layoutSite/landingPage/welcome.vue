@@ -5,42 +5,49 @@
       text color="grey" class="btnBack"> <v-icon>mdi-arrow-left</v-icon>Voltar</v-btn>
     <div class="logo">
       <LayoutSiteLandingPageAnimationSmoke />
-      <v-icon class="mb-5" size="50">mdi-coffee-outline</v-icon>
+      <v-icon class="mb-10" size="50">mdi-coffee-outline</v-icon>
     </div>
     <div class="login">
       <h1 class="mb-5">Bem-vindo</h1>
-      <p class="caption" style="max-width: 380px;">Nesta versão beta está disponível criação de contas apenas com o google.</p>
-      <v-form v-if="!createAccount" class="formLogin">
-        <v-text-field
-          label="E-mail"
-          placeholder="Endereço de e-mail"
-          outlined
-          disabled
-        ></v-text-field>
-        <v-btn disabled block color="primary">Continue</v-btn>
-      </v-form>
-      <div class="mt-5 textLogin">
-        <p v-if="!createAccount">Você não possui conta? <a @click="createAccount = !createAccount">Criar</a></p>
-        <p v-else>Você já possui conta? <a @click="createAccount = !createAccount">Login</a></p>
+      <div v-if="!userUid.uid">
+        <p class="caption" style="max-width: 380px;">Nesta versão beta está disponível criação de contas apenas com o google.</p>
+        <v-form v-if="!createAccount" class="formLogin">
+          <v-text-field
+            label="E-mail"
+            placeholder="Endereço de e-mail"
+            outlined
+            disabled
+          ></v-text-field>
+          <v-btn disabled block color="primary">Continue</v-btn>
+        </v-form>
+        <div class="mt-5 textLogin">
+          <p v-if="!createAccount">Você não possui conta? <a @click="createAccount = !createAccount">Criar</a></p>
+          <p v-else>Você já possui conta? <a @click="createAccount = !createAccount">Login</a></p>
+        </div>
+        <div>
+          <a
+            class="google"
+            @click="google()"
+          >
+            <v-icon v-if="!loading" color="error" class="mr-2">mdi-google</v-icon>
+            <v-progress-circular
+              v-else
+              indeterminate
+              color="red"
+              value="10"
+              class="mr-2"
+            ></v-progress-circular>
+            {{ loading ? 'Aguarde...' : 'Continue com Google'}}
+          </a>
+        </div>
       </div>
-      <div>
-        <a
-
-          class="google"
-          @click="google()"
-        >
-          <v-icon v-if="!loading" color="error" class="mr-2">mdi-google</v-icon>
-          <v-progress-circular
-            v-else
-            indeterminate
-            color="red"
-            value="10"
-            class="mr-2"
-          ></v-progress-circular>
-          {{ loading ? 'Aguarde...' : 'Continue com Google'}}
-        </a>
+      <div v-else>
+        <a class="google">
+          <v-icon class="mr-2">mdi-notebook</v-icon>
+          Ir para Leis</a>
+        <p class="mt-5">Você está conectado como <span class="font-weight-bold">{{ userUid.email }}</span>  </p>
+        <p>Conectar com outra conta? <a @click.prevent="closeLogin()">Sair</a></p>
       </div>
-
     </div>
   </v-container>
 </template>
@@ -64,8 +71,14 @@
         userLogin: false
       }
     },
+    computed:{
+        userUid(){
+            const user =  this.$store.getters.readUser
+            return user
+        }
+    },
     methods: {
-      ...mapActions(['cargaUserPreferences']),
+      ...mapActions(['cargaUserPreferences', 'logout']),
       async google(){
                 this.loading = true
                 const provider = new firebase.auth.GoogleAuthProvider();
@@ -101,15 +114,12 @@
                     this.loading = false
                 }
       },
-      userLoginIn(){
-          if(this.userUid){
-              this.$router.push( '/laws' )
-          }
-      }
+      closeLogin(){
+        this.logout()
+        this.$store.dispatch("snackbars/setSnackbars", {text:'Sessão encerrada', color:'error'})
+        this.drawer = false
+      },
     },
-    created(){
-        this.userLoginIn()
-    }
   }
 </script>
 

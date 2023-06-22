@@ -9,11 +9,18 @@
 </template>
 
 <script>
+  import {  mapActions} from 'vuex'
   export default {
     data(){
       return{
 
       }
+    },
+    methods:{
+      ...mapActions(['setUser','cargaUserPreferences']),
+    },
+    created(){
+      this.setUser()
     }
   }
 </script>

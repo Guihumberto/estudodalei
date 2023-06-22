@@ -13,7 +13,9 @@
             <a href="https://www.instagram.com/estudodalei.com.br/" target="_blank" class="insta">
               <v-icon
                 size="small"
-                color="grey">mdi-instagram
+                color="grey"
+              >
+                mdi-instagram
               </v-icon>
                 estudodalei.com.br
             </a>

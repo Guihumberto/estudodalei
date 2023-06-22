@@ -20,7 +20,7 @@
                         <v-form>
                             <v-expand-transition>
                                 <v-text-field
-                                    label="Nome" 
+                                    label="Nome"
                                     dense outlined
                                     v-model="userLogin.name"
                                     disabled
@@ -30,7 +30,7 @@
                                 ></v-text-field>
                             </v-expand-transition>
                             <v-text-field
-                                label="E-mail" 
+                                label="E-mail"
                                 append-icon="mdi-email"
                                 v-model="userLogin.email"
                                 disabled
@@ -38,7 +38,7 @@
                                 type="email"
                             ></v-text-field>
                             <v-text-field
-                                label="Senha" 
+                                label="Senha"
                                 dense outlined
                                 disabled
                                 v-model="userLogin.password"
@@ -56,11 +56,11 @@
                     </v-card-text>
                 </v-card>
                 <!-- entrar com o google -->
-                <v-alert 
+                <v-alert
                     class="mt-5 mx-auto text-center"
                     max-width="430"
                     >
-                    <v-btn 
+                    <v-btn
                         :loading="loading"
                         block color="error lighten-2" @click="google()">
                         <v-icon small class="mr-5">mdi-google</v-icon>
@@ -68,12 +68,12 @@
                     </v-btn>
                 </v-alert>
                 <!-- nao possui conta/login -->
-                <v-alert 
+                <v-alert
                     class="mx-auto text-center"
                     max-width="400"
                     >
                     <span v-if="isLogin">
-                        Já possui uma conta? <a class="text-primary text--bold" @click="isLogin = !isLogin">fazer login.</a> 
+                        Já possui uma conta? <a class="text-primary text--bold" @click="isLogin = !isLogin">fazer login.</a>
                     </span>
                     <span v-else>
                         Não possui uma conta? <a class="red--text text--bold" @click="isLogin = !isLogin">Criar Conta.</a>
@@ -131,7 +131,7 @@
                 this.loading = true
                 const provider = new firebase.auth.GoogleAuthProvider();
                 firebase.auth().languageCode = 'pt-br';
-                
+
                 try {
                     //login user
                     const result = await firebase.auth().signInWithPopup(provider);
