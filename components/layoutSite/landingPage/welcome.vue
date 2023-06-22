@@ -42,7 +42,7 @@
         </div>
       </div>
       <div v-else>
-        <a class="google">
+        <a class="google" href="/laws">
           <v-icon class="mr-2">mdi-notebook</v-icon>
           Ir para Leis</a>
         <p class="mt-5">Você está conectado como <span class="font-weight-bold">{{ userUid.email }}</span>  </p>
