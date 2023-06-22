@@ -31,13 +31,14 @@
 <style scoped>
 footer {
   width: 100%;
-  min-height: 8vh;
+  min-height: 6vh;
   transition: .5s;
 }
 a {
   color: grey;
   transition: .5s;
   user-select: none;
+  text-decoration: none;
 }
 a:hover {
   color: #fff;

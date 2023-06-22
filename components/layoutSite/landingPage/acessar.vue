@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="information">
-          <a v-for="item, i in sections" :key="i" @click.prevent="toLink(item.to)">
+          <a v-for="item, i in sections" :key="i" :href="item.to">
             {{ item.name }}
           </a>
       </div>
@@ -33,11 +33,6 @@
     },
     props: {
       login: true
-    },
-    methods:{
-      toLink(link){
-        this.$router.push(link)
-      }
     }
   }
 </script>

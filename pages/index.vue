@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <layoutSite-landingPage-acessar :login="login" @login="login = !login"  />
-    <LayoutSiteLandingPageWelcome class="login" v-if="login" />
+    <LayoutSiteLandingPageWelcome class="login" v-if="login" @login="login = !login" />
   </div>
 </template>
 

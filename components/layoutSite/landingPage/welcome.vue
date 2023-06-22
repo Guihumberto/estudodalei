@@ -1,9 +1,11 @@
 <template>
   <v-container class="loginNew">
-
+    <v-btn
+      @click="$emit('login')"
+      text color="grey" class="btnBack"> <v-icon>mdi-arrow-left</v-icon>Voltar</v-btn>
     <div class="logo">
       <LayoutSiteLandingPageAnimationSmoke />
-      <v-icon class="mb-10" size="50">mdi-coffee-outline</v-icon>
+      <v-icon class="mb-5" size="50">mdi-coffee-outline</v-icon>
     </div>
     <div class="login">
       <h1 class="mb-5">Bem-vindo</h1>
@@ -122,6 +124,12 @@
   color: #000;
   text-align: center;
   transition: .5s;
+  position: relative;
+}
+.btnBack {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .logo {
   position: relative;

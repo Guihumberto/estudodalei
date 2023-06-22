@@ -8,15 +8,14 @@
 
 <script>
   export default {
-    data(){
-    }
+
   }
 </script>
 
 <style scoped>
 .header {
   width: 100%;
-  min-height: 8vh;
+  min-height: 6vh;
   background: black;
   display: flex;
   justify-content: center;
