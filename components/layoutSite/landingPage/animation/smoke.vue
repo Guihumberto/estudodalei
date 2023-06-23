@@ -27,6 +27,7 @@ ul {
   transform: translateX(-50%);
   margin: 0;
   padding: 0;
+  z-index: -1;
 }
 li {
   position: absolute;

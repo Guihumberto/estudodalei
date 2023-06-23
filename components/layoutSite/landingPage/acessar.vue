@@ -63,6 +63,7 @@
   border-right: 2px solid rgba(255, 255, 255, .2);
   border-bottom: 2px solid rgba(255, 255, 255, .2);
   backdrop-filter: blur(10px);
+  margin: 0 1rem;
   transition: .5s;
   opacity: 0;
   animation: slideRight 1s ease forwards;
