@@ -1,30 +1,28 @@
 <template>
-    <v-container class="container">
+    <div class="container">
             <v-progress-circular
             :size="120"
             :width="10"
             color="purple"
             indeterminate
             ></v-progress-circular>
-    </v-container>
+    </div>
 </template>
 
 <script>
     export default {
-        
+
     }
 </script>
 
 <style scoped>
-.v-progress-circular {
-  margin: 1rem;
-}
 .container {
 width: 100vw;
-height: 100vh;
+height: 80vh;
 display: flex;
 flex-direction: row;
 justify-content: center;
 align-items: center;
+position: relative;
 }
 </style>

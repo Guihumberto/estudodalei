@@ -34,37 +34,6 @@
           <v-icon>mdi-menu</v-icon>
         </v-btn>
 
-        <!-- <v-menu
-          left
-          origin="center center"
-          transition="scale-transition"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="primary"
-              dark
-              small icon
-              v-bind="attrs"
-              v-on="on"
-              class="ml-1 d-flex d-sm-none"
-            >
-              <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
-          </template>
-
-        <v-list>
-          <template v-for="(item, i) in items">
-            <v-divider v-if="i != 0"></v-divider>
-            <v-list-item
-              :key="i"
-              :to="item.url"
-            >
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item>
-          </template>
-        </v-list>
-      </v-menu> -->
-
     </v-app-bar>
 
     <v-main>
@@ -86,7 +55,7 @@
 
     </v-main>
     <v-navigation-drawer
-      v-show="loading"
+      v-if="loading"
       v-model="rightDrawer"
       :right="right"
       fixed
@@ -239,5 +208,10 @@ html {
 }
 .formatText{
     font-family: 'Inter', sans-serif;
+}
+@keyframes aparecer {
+  100%{
+    opacity: 1;
+  }
 }
 </style>

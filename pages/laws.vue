@@ -1,7 +1,6 @@
 <template>
   <v-container class="mt-5 formatText" style="max-width: 1080px">
         <div class="mb-5 text-h4 Heading 1">O que vamos estudar hoje?</div>
-        <v-subheader class="ml-n2">Digite o nome ou número da legislação na barra de busca.</v-subheader>
         <!-- barra de busca -->
         <v-text-field
           dense
@@ -37,10 +36,25 @@
         <v-card class="ml-2" v-else-if="lawList.length" flat min-height="50vh" color="#fafafa">
           <!-- total de lei e view -->
           <v-card-title>
-                <span class="caption">Total de Leis : {{lawList.length}}</span>
                 <v-btn
-                  @click="lawFavFilter = !lawFavFilter"
-                  class="ml-2" v-if="isLogin.login" small
+                  small
+                  text
+                  :outlined="!folder"
+                  @click="folder = false"
+                >Leis
+                  <v-icon class="ml-1" small>mdi-bookshelf</v-icon>
+                </v-btn>
+                <v-btn
+                  small
+                  text
+                  :outlined="folder"
+                  @click="folder = true, lawFavFilter = false"
+                >Pastas
+                  <v-icon class="ml-1" small>mdi-folder-outline</v-icon>
+                </v-btn>
+                <v-btn
+                  @click="lawFavFilter = !lawFavFilter, folder = false"
+                  v-if="isLogin.login" small
                   :outlined="lawFavFilter"
                   :color="lawFavFilter ? 'warning' : 'secondary'"
                   text>
@@ -54,90 +68,96 @@
                   <v-icon>{{viewDashboard.icon}}</v-icon>
                 </v-btn>
           </v-card-title>
-          <!-- tags disciplinas -->
-          <v-card-text v-if="!search">
-            <v-row justify="space-around">
-              <v-col
-                cols="12"
-                class="px-0"
-              >
-                <v-sheet>
-                  <v-chip-group>
-                    <v-chip
-                      @click="listTags = []">Todas</v-chip>
-                    <v-chip
-                      v-for="(item, index) in tags"
-                      :key="index"
-                      @click="filterTag(item.sigla)"
-                      :close="closeTag(item.sigla)"
-                      @click:close="filterTag(item.sigla)"
-                      :color="closeTag(item.sigla) ? 'primary' : 'secondary lighten-2'"
-                      class="white--text"
-                    >
-                      {{ item.name }}
-                    </v-chip>
-                  </v-chip-group>
-                </v-sheet>
-              </v-col>
-            </v-row>
-          </v-card-text>
-          <!-- leis listadas -->
-          <v-card-text>
-            <v-row >
-              <v-col
-                class="my-n2"
-                cols="12"
-                :sm="viewDashboard.sm" :md="viewDashboard.md"
-                v-for="(item, index) in lawList.slice(0, sizeScreen.qtd)" :key="index">
-                <v-card
-                  hover outlined min-height="100"
+          <div v-if="folder">
+            <v-card-text class="folderWrapper">
+              <listLaws-folders-main />
+            </v-card-text>
+          </div>
+          <div v-else>
+            <!-- tags disciplinas -->
+            <v-card-text v-if="!search">
+              <v-row justify="space-around">
+                <v-col
+                  cols="12"
+                  class="px-0"
                 >
-                  <v-list three-line class="pt-0">
-                    <v-list-item
-                      :to="{
-                        name: 'law-leges',
-                        params:{law: item.id},
-                        // query:{id:item.id}
-                      }"
-                    >
-                      <v-list-item-content>
-                        <v-list-item-title>{{item.nickname}}</v-list-item-title>
-                        <v-list-item-subtitle>{{item.nro}}</v-list-item-subtitle>
-                        <v-list-item-subtitle class="caption">{{item.description}}</v-list-item-subtitle>
-                      </v-list-item-content>
-                    </v-list-item>
-                    <v-subheader class="my-n3">
-                      <v-spacer></v-spacer>
-                      <v-btn title="Favoritar"
-                        @click="favLaw(item)"
-                        :color=" listFavExist(item.id) ? '#FFD700': 'grey'"
-                        x-small icon>
-                        <v-icon>mdi-star</v-icon>
-                      </v-btn>
-                    </v-subheader>
-                  </v-list>
-                  <!-- <v-card-text>
-                    <span class="font-weight-medium">{{item.nickname | truncate(viewDashboard.trun)}}</span> <br>
-                    {{item.nro}} <br>
-                    {{item.description | truncate(40)}}
-                  </v-card-text> -->
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-card-text>
-          <v-card-text>
-            <!-- btn ver mais -->
-              <div class="text-center mt-5" v-if="sizeScreen.value & showMoreLaws < lawList.length">
-                <v-btn
-                  :block="sizeScreen.value"
-                  outlined
-                  @click="showMoreLaws += 10"
-                  color="indigo">
-                  <v-icon class=" ml-n2 mr-1">mdi-plus</v-icon>
-                  Ver mais
-                </v-btn>
+                  <v-sheet>
+                    <v-chip-group>
+                      <v-chip
+                        @click="listTags = []">Todas</v-chip>
+                      <v-chip
+                        v-for="(item, index) in tags"
+                        :key="index"
+                        @click="filterTag(item.sigla)"
+                        :close="closeTag(item.sigla)"
+                        @click:close="filterTag(item.sigla)"
+                        :color="closeTag(item.sigla) ? 'primary' : 'secondary lighten-2'"
+                        class="white--text"
+                      >
+                        {{ item.name }}
+                      </v-chip>
+                    </v-chip-group>
+                  </v-sheet>
+                </v-col>
+              </v-row>
+            </v-card-text>
+            <!-- leis listadas -->
+            <v-card-text class="listLaws">
+              <div class="mb-5">
+                <span class="caption">Total de Leis : {{lawList.length}}</span>
               </div>
-          </v-card-text>
+              <v-row >
+                <v-col
+                  class="my-n2"
+                  cols="12"
+                  :sm="viewDashboard.sm" :md="viewDashboard.md"
+                  v-for="(item, index) in lawList.slice(0, sizeScreen.qtd)" :key="index">
+                  <v-card
+                    hover outlined min-height="100"
+                    class="cardLaw"
+                  >
+                    <v-list three-line class="pt-0">
+                      <v-list-item
+                        :to="{
+                          name: 'law-leges',
+                          params:{law: item.id},
+                          // query:{id:item.id}
+                        }"
+                      >
+                        <v-list-item-content>
+                          <v-list-item-title>{{item.nickname}}</v-list-item-title>
+                          <v-list-item-subtitle>{{item.nro}}</v-list-item-subtitle>
+                          <v-list-item-subtitle class="caption">{{item.description}}</v-list-item-subtitle>
+                        </v-list-item-content>
+                      </v-list-item>
+                      <v-subheader class="my-n3">
+                        <v-spacer></v-spacer>
+                        <v-btn title="Favoritar"
+                          @click="favLaw(item)"
+                          :color=" listFavExist(item.id) ? '#FFD700': 'grey'"
+                          x-small icon>
+                          <v-icon>mdi-star</v-icon>
+                        </v-btn>
+                      </v-subheader>
+                    </v-list>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-card-text>
+            <v-card-text>
+              <!-- btn ver mais -->
+                <div class="text-center mt-5" v-if="sizeScreen.value & showMoreLaws < lawList.length">
+                  <v-btn
+                    :block="sizeScreen.value"
+                    outlined
+                    @click="showMoreLaws += 10"
+                    color="indigo">
+                    <v-icon class=" ml-n2 mr-1">mdi-plus</v-icon>
+                    Ver mais
+                  </v-btn>
+                </div>
+            </v-card-text>
+          </div>
         </v-card>
          <!-- tela de loading -->
         <v-card v-else class="mx-3">
@@ -173,6 +193,7 @@
         dashboard: true,
         search: '',
         showMoreLaws: 5,
+        folder: false,
         tags: [
           {name: 'D. Constitucional', sigla: 'DC'},
           {name: 'D. Tributário', sigla: 'DT'},
@@ -317,5 +338,24 @@
 <style scoped>
 .formatText{
     font-family: 'Inter', sans-serif;
+    opacity: 0;
+    animation: aparecer 1s ease forwards;;
+}
+.cardLaw {
+  border-top: 5px solid rgb(129, 129, 133) ;
+  transition: .5s;
+}
+.cardLaw:hover {
+  border-top: 5px solid rgb(87, 87, 172) ;
+}
+.folderWrapper {
+  opacity: 0;
+  animation-delay: 1.1s;
+  animation: aparecer 1s ease forwards;
+}
+.listLaws {
+  opacity: 0;
+  animation-delay: 1.1s;
+  animation: aparecer 1s ease forwards;
 }
 </style>
