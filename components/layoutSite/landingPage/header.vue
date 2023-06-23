@@ -15,7 +15,6 @@
 <style scoped>
 .header {
   width: 100%;
-  min-height: 6vh;
   background: black;
   display: flex;
   justify-content: center;
@@ -23,7 +22,7 @@
 }
 .headerDiv{
   width: 1160px;
-  height: 5vh;
+  min-height: 5vh;
   display: flex;
   justify-content: end;
   align-items: center;

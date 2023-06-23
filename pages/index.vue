@@ -1,7 +1,11 @@
 <template>
   <div class="home">
-    <layoutSite-landingPage-acessar :login="login" @login="login = !login"  />
-    <LayoutSiteLandingPageWelcome class="login" v-if="login" @login="login = !login" />
+    <layoutSite-landingPage-header />
+    <div class="mainhome">
+      <layoutSite-landingPage-acessar :login="login" @login="login = !login"  />
+      <LayoutSiteLandingPageWelcome class="login" v-if="login" @login="login = !login" />
+    </div>
+    <layoutSite-landingPage-footer />
   </div>
 </template>
 
@@ -38,12 +42,22 @@
 <style>
 .home {
   background: #000;
-  height: 84vh;
+  height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 0;
   padding: 0;
+  overflow: hidden;
+}
+.mainhome {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 .acessar {
   transition: .5s;
@@ -53,11 +67,7 @@
   opacity: 0;
   animation: slideLeft .5s ease forwards;
   transition: .5s;
-}
-@media (max-width: 800px) {
-  .home {
-    height: 76.5vh;
-  }
+  overflow: hidden;
 }
 </style>
 

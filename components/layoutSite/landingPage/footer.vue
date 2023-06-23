@@ -33,8 +33,8 @@
 <style scoped>
 footer {
   width: 100%;
-  min-height: 6vh;
   transition: .5s;
+
 }
 .insta {
   color: grey;

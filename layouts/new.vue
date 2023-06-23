@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <layoutSite-landingPage-header />
+
     <v-main class="mainclass">
       <nuxt />
     </v-main>
-    <layoutSite-landingPage-footer />
+
   </v-app>
 </template>
 
